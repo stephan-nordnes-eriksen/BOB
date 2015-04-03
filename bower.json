@@ -5,14 +5,12 @@
     "Stephan Nordnes Eriksen <stephanruler@gmail.com>"
   ],
   "description": "BOB is a javascript library for building complex html structures",
-  "main": [
-    "public/BOB.js",
-    "public/BOB.min.js"
-  ],
+  "main": "public/BOB.js",
   "keywords": [
     "BOB",
     "building",
-    "html"
+    "html",
+    "library"
   ],
   "license": "MIT",
   "ignore": [
@@ -20,6 +18,9 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "config.coffee",
+    "package.json",
+    "*.log",
+    "BOB.png"
   ]
 }

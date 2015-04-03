@@ -12,7 +12,9 @@
     "test": "brunch test",
     "build": "brunch build",
     "standalone": "cat app/scripts/BOB.coffee app/scripts/BOBChildArray.coffee | coffee --compile --stdio -b > public/BOB.standalone.js; uglifyjs public/BOB.standalone.js > public/BOB.standalone.min.js",
-    "compile": "brunch build -P; npm run standalone"
+    "uglifyjs": "uglifyjs public/BOB.js > public/BOB.min.js",
+    "compile": "brunch build; npm run standalone; npm run uglifyjs",
+    "c": "npm run compile"
   },
   "devDependencies": {
     "uglify-js": ">= 0",
