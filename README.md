@@ -4,7 +4,7 @@ BOB is a simple and powerfull javascript pipe system for building complex html s
 ![BOB](/BOB.png?raw=true)
 
 ##Install:
-Currently it is not available anywhere but GitHub. Download the repo, or copy the small (6.336 kb) "public/BOB.standalone.min.js". It is completely stand alone, no external libraries needed.
+Currently it is not available anywhere but GitHub. Download the repo, or copy the small (<8 KB) "public/BOB.standalone.min.js". It is completely stand alone, no external libraries needed.
 
 ###In the future you can install by running
 
