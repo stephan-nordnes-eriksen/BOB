@@ -1,4 +1,4 @@
-# BOB
+#BOB
 BOB is a simple and powerfull javascript library for building complex html structures. 
 
 BOB uses a pipe system to easily create very complex structures.
@@ -102,29 +102,25 @@ It is adviced to do the data manipulation prior to the ´do´ pipe. However it i
 
 ###Some complex examples
 
+	new BOB("div#wrapper").insert("div#searchbar").up().insert("footer").do(["team","contact","buy"]).insert("h2").content(BOB.data).p()
+	//=> "<div id="wrapper"><div id="searchbar"></div><footer><h2>team</h2><h2>contact</h2><h2>buy</h2></footer></div>"
+
+	new BOB("div#wrapper").insert("div#searchbar").up().insert("footer").do(["team","contact","buy"]).insert("h2",{"onclick": function(){return ("alert('" + BOB.data() + "');") }}).content(BOB.data).p()
+	//=> "<div id="wrapper"><div id="searchbar"></div><footer><h2 onclick="alert('team');">team</h2><h2 onclick="alert('contact');">contact</h2><h2 onclick="alert('buy');">buy</h2></footer></div>"
+
+	new BOB("div#wrapper").insert("div#searchbar").up().insert("footer").do(["team","contact","buy"]).insert("h2",{"onclick": function(){return ("alert('" + BOB.data() + "');") }}).content(BOB.data).up().up().prepend("a",{"href": "http://www.google.com"}).content("google").p()
+	//=> "<a href="http://www.google.com">google</a><div id="wrapper"><div id="searchbar"></div><footer><h2 onclick="alert('team');">team</h2><h2 onclick="alert('contact');">contact</h2><h2 onclick="alert('buy');">buy</h2></footer></div>"
 
 
 
-##Compiling source files:
 
-Install dependencies with ´npm install´
+##Important notes:
+Currently BOB has no unit tests, so it cannot be considered production ready. 
 
-Then build with ´npm run compile´. See ´package.json´, under scripts, for more options.
+Please help contribute to this project. It is brand new, and there are probably loads of features that can be added. 
 
-# Brunch app
+###Planned features
 
-This is HTML5 application, built with [Brunch](http://brunch.io).
+ - Adding element selector which finds elements in the page.
+ - Adding ability to output string into existing elements (similar how jQuery does it)
 
-## Getting started
-* Install (if you don't have them):
-    * [Node.js](http://nodejs.org): `brew install node` on OS X
-    * [Brunch](http://brunch.io): `npm install -g brunch`
-    * [Bower](http://bower.io): `npm install -g bower`
-    * Brunch plugins and Bower dependencies: `npm install & bower install`.
-* Run:
-    * `brunch watch --server` — watches the project with continuous rebuild. This will also launch HTTP server with [pushState](https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history).
-    * `brunch build --production` — builds minified project for production
-* Learn:
-    * `public/` dir is fully auto-generated and served by HTTP server.  Write your code in `app/` dir.
-    * Place static files you want to be copied from `app/assets/` to `public/`.
-    * [Brunch site](http://brunch.io), [Chaplin site](http://chaplinjs.org)
