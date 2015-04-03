@@ -79,7 +79,9 @@ BOB = (function() {
   };
 
   BOB.prototype.co = function(content) {
-    this.object_content = BOB.toVariable(content);
+    var child;
+    child = this.i("");
+    child.object_content = BOB.toVariable(content);
     return this;
   };
 
@@ -198,25 +200,29 @@ BOB = (function() {
     if (this.postBob) {
       append = this.postBob.s();
     }
-    printself += '<' + this.type + ' ';
-    ref = this.options;
-    for (key in ref) {
-      value = ref[key];
-      if (!(key === 'style' && this.object_style || key === 'id' && this.object_id || key === 'class' && this.object_class)) {
-        printself += key + '="' + value + '" ';
+    if (this.type !== "") {
+      printself += '<' + this.type + ' ';
+      ref = this.options;
+      for (key in ref) {
+        value = ref[key];
+        if (!(key === 'style' && this.object_style || key === 'id' && this.object_id || key === 'class' && this.object_class)) {
+          printself += key + '="' + value + '" ';
+        }
       }
+      if (this.object_class) {
+        printself += 'class="' + this.object_class + '" ';
+      }
+      if (this.object_id) {
+        printself += 'id="' + this.object_id + '" ';
+      }
+      if (this.object_style) {
+        printself += 'style="' + this.object_style + '" ';
+      }
+      printself = printself.slice(0, -1);
+      printself += '>' + content_b + '</' + this.type + '>';
+    } else {
+      printself = this.object_content;
     }
-    if (this.object_class) {
-      printself += 'class="' + this.object_class + '" ';
-    }
-    if (this.object_id) {
-      printself += 'id="' + this.object_id + '" ';
-    }
-    if (this.object_style) {
-      printself += 'style="' + this.object_style + '" ';
-    }
-    printself = printself.slice(0, -1);
-    printself += '>' + this.object_content + content_b + '</' + this.type + '>';
     return prepend + printself + append;
   };
 

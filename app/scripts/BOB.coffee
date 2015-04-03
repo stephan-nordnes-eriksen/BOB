@@ -56,7 +56,8 @@ class BOB
 	content: (content) ->
 		this.co(content)
 	co: (content) ->
-		@object_content = BOB.toVariable(content)
+		child = this.i("")
+		child.object_content = BOB.toVariable(content)
 		return this
 
 	style: (style) ->
@@ -138,20 +139,24 @@ class BOB
 		content_b = @innerBob.s() if @innerBob
 		prepend = @preBob.s() if @preBob
 		append = @postBob.s() if @postBob
+		#TODO: Make special case for img (or those without content?) and no-type tag, which is pure text content.
+		if @type != ""
+			printself += '<' + @type + ' '
+			for key, value of @options
+				unless key == 'style' && @object_style || key == 'id' && @object_id || key == 'class' && @object_class
+					printself += key + '="' + value + '" ' 
 
-		printself += '<' + @type + ' '
-		for key, value of @options
-			unless key == 'style' && @object_style || key == 'id' && @object_id || key == 'class' && @object_class
-				printself += key + '="' + value + '" ' 
+			
+			
+			printself += 'class="' + @object_class + '" ' if @object_class
+			printself += 'id="'    + @object_id    + '" ' if @object_id
+			printself += 'style="' + @object_style + '" ' if @object_style
 
-		
-		
-		printself += 'class="' + @object_class + '" ' if @object_class
-		printself += 'id="'    + @object_id    + '" ' if @object_id
-		printself += 'style="' + @object_style + '" ' if @object_style
-
-		printself = printself.slice(0, -1)
-		printself += '>' + @object_content + content_b + '</' + @type + '>'
+			printself = printself.slice(0, -1)
+			printself += '>' + content_b + '</' + @type + '>'
+		else
+			#pure text element (no type)
+			printself = @object_content #it should not have any innerBob as it is never exposed when we are setting object_content
 
 		return prepend + printself + append
 
