@@ -39,7 +39,11 @@ BOB is a pipe system for generating html structures.
     new BOB("ul").do([1,2,3]).insert("li").us().id(BOB.data).s() //INVALID //=> The BOB.data will not be set and you will get the output of: "<ul><li></li><li></li><li></li></ul>".
     new BOB("ul").do([1,2,3]).insert("li").content(function(){return BOB.data() + 2}).s() //=> <ul><li>3</li><li>4</li><li>5</li></ul>
     data_modifier = function(){return BOB.data() + 2}; new BOB("ul").do([1,2,3]).insert("li").content(data_modifier).s() //=> <ul><li>3</li><li>4</li><li>5</li></ul>
+    
+    //Shorthand syntax:
+    new BOB("div").i("img", {"src":"some.png"}).u().d([1,2,3]).i("p.number").co(BOB.d).s() //=> "<div><img src="some.png"></img><p class="number">1</p><p class="number">2</p><p class="number">3</p></div>"
 ```
+[Go to shorthand syntax section](#shorthand)
 
 ###Building a simple tag:
 ```javascript
@@ -47,7 +51,7 @@ BOB is a pipe system for generating html structures.
     new BOB("div").toString() 
     //=> "<div></div>"
 ```
-You can also use the shorthand method "s". For a full list see [the shorthand section](#shorthand) 
+You can also use the shorthand method "s". For a full list see [the shorthand section](#shorthand)
 
 ```javascript
 
