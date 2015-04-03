@@ -231,7 +231,7 @@ Please help contribute to this project. It is brand new, and there are probably 
 
 ###Planned features
 
- - Adding element selector which finds elements in the page.
+ - Adding element selector which finds elements in the active DOM.
  - Adding ability to output string into existing elements (similar how jQuery does it)
 
 ##License
