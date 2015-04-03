@@ -9,6 +9,8 @@ class BOB
 		#TODO: this selects an existing element, and append/prepend/inserts into that
 	BOB.data = ->
 		return BOB._data
+	BOB.d = ->
+		return BOB._data
 	BOB.get_or_create_bob = (data, options, parent) ->
 		child_bob = null
 		if data instanceof BOB
@@ -52,32 +54,76 @@ class BOB
 			[@type, @object_id] = selector.split("#")
 
 	content: (content) ->
+		this.co(content)
+	co: (content) ->
 		@object_content = BOB.toVariable(content)
 		return this
+
 	style: (style) ->
+		this.st(style)
+	st: (style) ->
 		@object_style = BOB.toVariable(style)
 		return this
+
 	class: (object_class) ->
+		this.cl(object_class)
+	cl: (object_class) ->
 		@object_class = BOB.toVariable(object_class)
 		return this
+
 	id: (object_id) ->
 		@object_id = BOB.toVariable(object_id)
 		return this
 
 	insert: (data, options) ->
+		this.i(data,options)
+	i: (data, options) ->
 		child_bob = BOB.get_or_create_bob(data, options, this)
 
 		if @innerBob
-			@innerBob.append(child_bob)
+			@innerBob.a(child_bob)
 		else
 			@innerBob = child_bob
 
 		return child_bob
 
+	append: (data, options) ->
+		this.a(data, options)
+	a: (data, options) ->
+		new_bob = BOB.get_or_create_bob(data,options, this)
+		if @postBob
+			@postBob.a(new_bob)
+		else
+			@postBob = new_bob
+	
+	prepend: (data, options) ->
+		this.p(data, options)
+	p: (data, options) ->
+		new_bob = BOB.get_or_create_bob(data,options, this)
+		if @preBob
+			@preBob.p(new_bob)
+		else
+			@preBob = new_bob
+
+	do: (dataset)->
+		this.d(dataset)
+	d: (dataset)->
+		child_array = new BOBChildArray(dataset, this)
+		# @doData = dataset
+		# @inDO = true
+		return child_array
+
+	up: ->
+		@parent
+	u: ->
+		@parent
+
 	toString: ->
+		this.s()
+	s: ->
 		#this makes the toString bubble to the top if it is cast on a sub-element
 		if @parent
-			return @parent.toString()
+			return @parent.s()
 		
 		#kill parents so they will print out.
 		@innerBob.parent = null if @innerBob
@@ -89,9 +135,9 @@ class BOB
 		printself = ''
 		content_b = ''
 
-		content_b = @innerBob.toString() if @innerBob
-		prepend = @preBob.toString() if @preBob
-		append = @postBob.toString() if @postBob
+		content_b = @innerBob.s() if @innerBob
+		prepend = @preBob.s() if @preBob
+		append = @postBob.s() if @postBob
 
 		printself += '<' + @type + ' '
 		for key, value of @options
@@ -108,34 +154,6 @@ class BOB
 		printself += '>' + @object_content + content_b + '</' + @type + '>'
 
 		return prepend + printself + append
-
-	p: ->
-		this.toString()
-
-	append: (data, options) ->
-		new_bob = BOB.get_or_create_bob(data,options, this)
-		if @postBob
-			@postBob.append(new_bob)
-		else
-			@postBob = new_bob
-	prepend: (data, options) ->
-		new_bob = BOB.get_or_create_bob(data,options, this)
-		if @preBob
-			@preBob.prepend(new_bob)
-		else
-			@preBob = new_bob
-
-	do: (dataset)->
-		child_array = new BOBChildArray(dataset, this)
-		# @doData = dataset
-		# @inDO = true
-		return child_array
-
-	up: ->
-		@parent
-
-	parent: ->
-		@parent
 
 	# new BOB("div",{test: "lol"}).do(["data"]).add("p",funtion(d){this.insert("div",{a: d.height})})
 

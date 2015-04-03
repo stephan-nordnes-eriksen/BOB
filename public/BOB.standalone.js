@@ -10,6 +10,10 @@ BOB = (function() {
     return BOB._data;
   };
 
+  BOB.d = function() {
+    return BOB._data;
+  };
+
   BOB.get_or_create_bob = function(data, options, parent) {
     var child_bob;
     child_bob = null;
@@ -71,16 +75,28 @@ BOB = (function() {
   }
 
   BOB.prototype.content = function(content) {
+    return this.co(content);
+  };
+
+  BOB.prototype.co = function(content) {
     this.object_content = BOB.toVariable(content);
     return this;
   };
 
   BOB.prototype.style = function(style) {
+    return this.st(style);
+  };
+
+  BOB.prototype.st = function(style) {
     this.object_style = BOB.toVariable(style);
     return this;
   };
 
   BOB.prototype["class"] = function(object_class) {
+    return this.cl(object_class);
+  };
+
+  BOB.prototype.cl = function(object_class) {
     this.object_class = BOB.toVariable(object_class);
     return this;
   };
@@ -91,20 +107,74 @@ BOB = (function() {
   };
 
   BOB.prototype.insert = function(data, options) {
+    return this.i(data, options);
+  };
+
+  BOB.prototype.i = function(data, options) {
     var child_bob;
     child_bob = BOB.get_or_create_bob(data, options, this);
     if (this.innerBob) {
-      this.innerBob.append(child_bob);
+      this.innerBob.a(child_bob);
     } else {
       this.innerBob = child_bob;
     }
     return child_bob;
   };
 
+  BOB.prototype.append = function(data, options) {
+    return this.a(data, options);
+  };
+
+  BOB.prototype.a = function(data, options) {
+    var new_bob;
+    new_bob = BOB.get_or_create_bob(data, options, this);
+    if (this.postBob) {
+      return this.postBob.a(new_bob);
+    } else {
+      return this.postBob = new_bob;
+    }
+  };
+
+  BOB.prototype.prepend = function(data, options) {
+    return this.p(data, options);
+  };
+
+  BOB.prototype.p = function(data, options) {
+    var new_bob;
+    new_bob = BOB.get_or_create_bob(data, options, this);
+    if (this.preBob) {
+      return this.preBob.p(new_bob);
+    } else {
+      return this.preBob = new_bob;
+    }
+  };
+
+  BOB.prototype["do"] = function(dataset) {
+    return this.d(dataset);
+  };
+
+  BOB.prototype.d = function(dataset) {
+    var child_array;
+    child_array = new BOBChildArray(dataset, this);
+    return child_array;
+  };
+
+  BOB.prototype.up = function() {
+    return this.parent;
+  };
+
+  BOB.prototype.u = function() {
+    return this.parent;
+  };
+
   BOB.prototype.toString = function() {
+    return this.s();
+  };
+
+  BOB.prototype.s = function() {
     var append, content_b, key, prepend, printself, ref, value;
     if (this.parent) {
-      return this.parent.toString();
+      return this.parent.s();
     }
     if (this.innerBob) {
       this.innerBob.parent = null;
@@ -120,13 +190,13 @@ BOB = (function() {
     printself = '';
     content_b = '';
     if (this.innerBob) {
-      content_b = this.innerBob.toString();
+      content_b = this.innerBob.s();
     }
     if (this.preBob) {
-      prepend = this.preBob.toString();
+      prepend = this.preBob.s();
     }
     if (this.postBob) {
-      append = this.postBob.toString();
+      append = this.postBob.s();
     }
     printself += '<' + this.type + ' ';
     ref = this.options;
@@ -150,44 +220,6 @@ BOB = (function() {
     return prepend + printself + append;
   };
 
-  BOB.prototype.p = function() {
-    return this.toString();
-  };
-
-  BOB.prototype.append = function(data, options) {
-    var new_bob;
-    new_bob = BOB.get_or_create_bob(data, options, this);
-    if (this.postBob) {
-      return this.postBob.append(new_bob);
-    } else {
-      return this.postBob = new_bob;
-    }
-  };
-
-  BOB.prototype.prepend = function(data, options) {
-    var new_bob;
-    new_bob = BOB.get_or_create_bob(data, options, this);
-    if (this.preBob) {
-      return this.preBob.prepend(new_bob);
-    } else {
-      return this.preBob = new_bob;
-    }
-  };
-
-  BOB.prototype["do"] = function(dataset) {
-    var child_array;
-    child_array = new BOBChildArray(dataset, this);
-    return child_array;
-  };
-
-  BOB.prototype.up = function() {
-    return this.parent;
-  };
-
-  BOB.prototype.parent = function() {
-    return this.parent;
-  };
-
   return BOB;
 
 })();
@@ -200,33 +232,45 @@ BOBChildArray = (function() {
   }
 
   BOBChildArray.prototype.content = function(content) {
+    return this.co(content);
+  };
+
+  BOBChildArray.prototype.co = function(content) {
     var i, j, ref;
     for (i = j = 0, ref = this.dataset.length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
       BOB._data = this.dataset[i];
       if (this.bobs[i]) {
-        this.bobs[i].content(content);
+        this.bobs[i].co(content);
       }
     }
     return this;
   };
 
   BOBChildArray.prototype.style = function(style) {
+    return this.st(style);
+  };
+
+  BOBChildArray.prototype.st = function(style) {
     var i, j, ref;
     for (i = j = 0, ref = this.dataset.length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
       BOB._data = this.dataset[i];
       if (this.bobs[i]) {
-        this.bobs[i].style(style);
+        this.bobs[i].st(style);
       }
     }
     return this;
   };
 
   BOBChildArray.prototype["class"] = function(object_class) {
+    return this.cl(object_class);
+  };
+
+  BOBChildArray.prototype.cl = function(object_class) {
     var i, j, ref;
     for (i = j = 0, ref = this.dataset.length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
       BOB._data = this.dataset[i];
       if (this.bobs[i]) {
-        this.bobs[i]["class"](object_class);
+        this.bobs[i].cl(object_class);
       }
     }
     return this;
@@ -244,6 +288,10 @@ BOBChildArray = (function() {
   };
 
   BOBChildArray.prototype.insert = function(data, options) {
+    return this.i(data, options);
+  };
+
+  BOBChildArray.prototype.i = function(data, options) {
     var i, j, ref;
     for (i = j = 0, ref = this.dataset.length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
       BOB._data = this.dataset[i];
@@ -257,74 +305,90 @@ BOBChildArray = (function() {
   };
 
   BOBChildArray.prototype.append = function(data, options) {
+    return this.a(data, options);
+  };
+
+  BOBChildArray.prototype.a = function(data, options) {
     var i, j, ref;
     for (i = j = 0, ref = this.dataset.length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
       BOB._data = this.dataset[i];
       if (this.bobs[i]) {
-        this.bobs[i] = this.bobs[i].append(data, options);
+        this.bobs[i] = this.bobs[i].a(data, options);
       } else {
-        this.bobs.push(this.parent.append(data, options));
+        this.bobs.push(this.parent.a(data, options));
       }
     }
     return this;
   };
 
   BOBChildArray.prototype.prepend = function(data, options) {
+    return this.p(data, options);
+  };
+
+  BOBChildArray.prototype.p = function(data, options) {
     var i, j, ref;
     for (i = j = 0, ref = this.dataset.length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
       BOB._data = this.dataset[i];
       if (this.bobs[i]) {
-        this.bobs[i] = this.bobs[i].prepend(data, options);
+        this.bobs[i] = this.bobs[i].p(data, options);
       } else {
-        this.bobs.push(this.parent.prepend(data, options));
+        this.bobs.push(this.parent.p(data, options));
       }
     }
     return this;
   };
 
   BOBChildArray.prototype.toString = function() {
+    return this.s();
+  };
+
+  BOBChildArray.prototype.s = function() {
     var bob, html_string, j, len, ref;
     if (this.parent) {
-      return this.parent.toString();
+      return this.parent.s();
     } else {
       html_string = "";
       ref = this.bobs;
       for (j = 0, len = ref.length; j < len; j++) {
         bob = ref[j];
         bob.parent = false;
-        html_string += bob.toString();
+        html_string += bob.s();
       }
       return html_string;
     }
   };
 
-  BOBChildArray.prototype.p = function() {
-    return this.toString();
+  BOBChildArray.prototype["do"] = function(data) {
+    return this.d(data);
   };
 
-  BOBChildArray.prototype["do"] = function(data) {
+  BOBChildArray.prototype.d = function(data) {
     var bob, j, len, ref;
     ref = this.bobs;
     for (j = 0, len = ref.length; j < len; j++) {
       bob = ref[j];
       BOB._data = this.dataset[i];
       if (this.bobs[i]) {
-        this.bobs[i] = this.bobs[i]["do"](data);
+        this.bobs[i] = this.bobs[i].d(data);
       } else {
-        this.bobs.push(this.parent["do"](data));
+        this.bobs.push(this.parent.d(data));
       }
     }
     return this;
   };
 
   BOBChildArray.prototype.up = function() {
+    return this.u();
+  };
+
+  BOBChildArray.prototype.u = function() {
     var i, j, ref;
     if (!this.bobs[0]) {
       BOB._data = null;
       return this.parent;
     }
     for (i = j = 0, ref = this.bobs.length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
-      this.bobs[i] = this.bobs[i].up();
+      this.bobs[i] = this.bobs[i].u();
     }
     if (this.bobs[0] === this.parent) {
       BOB._data = null;
