@@ -1,0 +1,22 @@
+{
+  "name": "BOB",
+  "version": "0.0.1",
+  "authors": [
+    "Stephan Nordnes Eriksen <stephanruler@gmail.com>"
+  ],
+  "description": "BOB is a javascript library for building complex html structures",
+  "main": "public/BOB.js",
+  "keywords": [
+    "BOB",
+    "building",
+    "html"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
