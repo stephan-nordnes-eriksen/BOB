@@ -140,20 +140,43 @@ class BOB
 		prepend = @preBob.s() if @preBob
 		append = @postBob.s() if @postBob
 		#TODO: Make special case for img (or those without content?) and no-type tag, which is pure text content.
+		
 		if @type != ""
 			printself += '<' + @type + ' '
 			for key, value of @options
 				unless key == 'style' && @object_style || key == 'id' && @object_id || key == 'class' && @object_class
-					printself += key + '="' + value + '" ' 
-
-			
+					printself += key + '="' + value + '" '
 			
 			printself += 'class="' + @object_class + '" ' if @object_class
 			printself += 'id="'    + @object_id    + '" ' if @object_id
 			printself += 'style="' + @object_style + '" ' if @object_style
 
 			printself = printself.slice(0, -1)
-			printself += '>' + content_b + '</' + @type + '>'
+			closable = (["area",
+						"base",
+						"br",
+						"col",
+						"embed",
+						"hr",
+						"img",
+						"input",
+						"keygen",
+						"link",
+						"menuitem",
+						"meta",
+						"param",
+						"source",
+						"track",
+						"wbr",
+						"basefont",
+						"bgsound",
+						"frame",
+						"isindex"].indexOf(@type) != -1)
+
+			if closable && content_b == ''
+				printself += ' />'
+			else	
+				printself += '>' + content_b + '</' + @type + '>'
 		else
 			#pure text element (no type)
 			printself = @object_content #it should not have any innerBob as it is never exposed when we are setting object_content

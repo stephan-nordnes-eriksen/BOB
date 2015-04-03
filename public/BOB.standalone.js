@@ -174,7 +174,7 @@ BOB = (function() {
   };
 
   BOB.prototype.s = function() {
-    var append, content_b, key, prepend, printself, ref, value;
+    var append, closable, content_b, key, prepend, printself, ref, value;
     if (this.parent) {
       return this.parent.s();
     }
@@ -219,7 +219,12 @@ BOB = (function() {
         printself += 'style="' + this.object_style + '" ';
       }
       printself = printself.slice(0, -1);
-      printself += '>' + content_b + '</' + this.type + '>';
+      closable = ["area", "base", "br", "col", "embed", "hr", "img", "input", "keygen", "link", "menuitem", "meta", "param", "source", "track", "wbr", "basefont", "bgsound", "frame", "isindex"].indexOf(this.type) !== -1;
+      if (closable && content_b === '') {
+        printself += ' />';
+      } else {
+        printself += '>' + content_b + '</' + this.type + '>';
+      }
     } else {
       printself = this.object_content;
     }
