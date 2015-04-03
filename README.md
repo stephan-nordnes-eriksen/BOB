@@ -3,6 +3,17 @@ BOB is a simple and powerfull javascript library for building complex html struc
 
 BOB uses a pipe system to easily create very complex structures.
 
+##Install:
+Currently it is not available anywhere but GitHub. Download the repo, or copy the small (6.336 kb) "public/BOB.standalone.min.js". It is completely stand alone, no external libraries needed.
+
+###In the future you can install by running
+
+    bower install BOB
+
+or
+
+	npm install BOB
+
 ##Usage:
 ###Building a simple tag:
 ```javascript
@@ -133,6 +144,10 @@ It is adviced to do the data manipulation prior to the `do` pipe. However it is 
 ###Some complex examples
 
 ```javascript
+	
+	data = ["Team member1", "team member2", "team member3"]
+	new BOB("ul").do(data).insert("li.team").content(BOB.data).p()
+	//=> "<ul><li class="team">Team member1</li><li class="team">team member2</li><li class="team">team member3</li></ul>"
 
 	new BOB("div#wrapper").insert("div#searchbar").up().insert("footer").do(["team","contact","buy"]).insert("h2").content(BOB.data).p()
 	//=> "<div id="wrapper"><div id="searchbar"></div><footer><h2>team</h2><h2>contact</h2><h2>buy</h2></footer></div>"
