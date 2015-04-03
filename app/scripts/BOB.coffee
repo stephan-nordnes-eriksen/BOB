@@ -91,7 +91,9 @@ class BOB
 	append: (data, options) ->
 		this.a(data, options)
 	a: (data, options) ->
-		new_bob = BOB.get_or_create_bob(data, options, @parent)
+		par = this
+		par = @parent if @parent
+		new_bob = BOB.get_or_create_bob(data, options, par)
 		if @postBob
 			@postBob.a(new_bob)
 		else
@@ -100,7 +102,9 @@ class BOB
 	prepend: (data, options) ->
 		this.p(data, options)
 	p: (data, options) ->
-		new_bob = BOB.get_or_create_bob(data, options, @parent)
+		par = this
+		par = @parent if @parent
+		new_bob = BOB.get_or_create_bob(data, options, par)
 		if @preBob
 			@preBob.p(new_bob)
 		else
