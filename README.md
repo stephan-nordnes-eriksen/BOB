@@ -175,7 +175,8 @@ It is adviced to do the data manipulation prior to the `do` pipe. However it is 
 ```
 
 
-###Short hand syntax<a name="shorthand"></a>
+<a name="shorthand"></a>
+###Short hand syntax
 Writing out these pipes can be tiresom if you are building big and complex structures, so you can utilize these shorthand methods.
 
 Long Version | Short Version
