@@ -61,6 +61,8 @@ class BOBChildArray
 				bob.parent = false
 				html_string += bob.toString()
 			return html_string
+	p: ->
+		this.toString()
 
 		#TODO: do(data).do(data2) does not behave correctly
 		#also issues with Y().do(data).X().up(). => X in focus, not Y. NVM. this was correct
@@ -74,12 +76,16 @@ class BOBChildArray
 			
 		return this
 	up: ->
-		return @parent unless @bobs[0]
+		unless @bobs[0]
+			BOB._data = null
+			return @parent
+
 
 		for i in [0...@bobs.length]
 			@bobs[i] = @bobs[i].up()
 
 		if @bobs[0] == @parent
+			BOB._data = null
 			return @parent
 		else
 			return this

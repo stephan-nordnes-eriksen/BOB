@@ -37,14 +37,14 @@ class BOB
 				@options[key] = BOB.toVariable(value)
 
 		@preBob = preBob
-		@contentBob = contentBob
+		@innerBob = contentBob
 		@postBob = postBob
 
 		@type = selector
 		@object_class = null
 		@object_id = null
-		@content = ""
-		@style = null
+		@object_content = ""
+		@object_style = null
 
 		if selector.indexOf(".") > -1
 			[@type, @object_class] = selector.split(".")
@@ -52,10 +52,10 @@ class BOB
 			[@type, @object_id] = selector.split("#")
 
 	content: (content) ->
-		@content = BOB.toVariable(content)
+		@object_content = BOB.toVariable(content)
 		return this
 	style: (style) ->
-		@style = BOB.toVariable(style)
+		@object_style = BOB.toVariable(style)
 		return this
 	class: (object_class) ->
 		@object_class = BOB.toVariable(object_class)
@@ -67,10 +67,10 @@ class BOB
 	insert: (data, options) ->
 		child_bob = BOB.get_or_create_bob(data, options, this)
 
-		if @contentBob
-			@contentBob.append(child_bob)
+		if @innerBob
+			@innerBob.append(child_bob)
 		else
-			@contentBob = child_bob
+			@innerBob = child_bob
 
 		return child_bob
 
@@ -80,7 +80,7 @@ class BOB
 			return @parent.toString()
 		
 		#kill parents so they will print out.
-		@contentBob.parent = null if @contentBob
+		@innerBob.parent = null if @innerBob
 		@preBob.parent     = null if @preBob
 		@postBob.parent    = null if @postBob
 
@@ -89,36 +89,39 @@ class BOB
 		printself = ""
 		content_b = ""
 
-		content_b = @contentBob.toString() if @contentBob
+		content_b = @innerBob.toString() if @innerBob
 		prepend = @preBob.toString() if @preBob
 		append = @postBob.toString() if @postBob
 
 		printself += "<" + @type + " "
 		for key, value of @options
-			unless key == "style" && @style || key == "id" && @object_id || key == "class" && @object_class
+			unless key == "style" && @object_style || key == "id" && @object_id || key == "class" && @object_class
 				printself += key + '="' + value + '" ' 
 
 		
 		
 		printself += 'class="' + @object_class + '" ' if @object_class
 		printself += 'id="'    + @object_id    + '" ' if @object_id
-		printself += 'style="' + @style        + '" ' if @style
+		printself += 'style="' + @object_style + '" ' if @object_style
 
 		printself = printself.slice(0, -1)
-		printself += ">" + @content + content_b + "</" + @type + ">"
+		printself += ">" + @object_content + content_b + "</" + @type + ">"
 
 		return prepend + printself + append
+
+	p: ->
+		this.toString()
 
 	append: (data, options) ->
 		new_bob = BOB.get_or_create_bob(data,options, this)
 		if @postBob
-			@postBob.prepend(new_bob)
+			@postBob.append(new_bob)
 		else
 			@postBob = new_bob
 	prepend: (data, options) ->
 		new_bob = BOB.get_or_create_bob(data,options, this)
 		if @preBob
-			@preBob.append(new_bob)
+			@preBob.prepend(new_bob)
 		else
 			@preBob = new_bob
 

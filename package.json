@@ -9,15 +9,17 @@
   },
   "scripts": {
     "start": "brunch watch --server",
-    "test": "brunch test"
+    "test": "brunch test",
+    "build": "brunch build",
+    "standalone": "cat app/scripts/BOB.coffee app/scripts/BOBChildArray.coffee | coffee --compile --stdio -b > public/BOB.standalone.js; uglifyjs public/BOB.standalone.js > public/BOB.standalone.min.js",
+    "compile": "brunch build -P; npm run standalone"
   },
   "devDependencies": {
+    "uglify-js": ">= 0",
     "javascript-brunch": ">= 1.0 < 1.8",
-    "css-brunch": ">= 1.0 < 1.8",
     "uglify-js-brunch": ">= 1.0 < 1.8",
-    "clean-css-brunch": ">= 1.0 < 1.8",
-    "auto-reload-brunch": ">= 1.0 < 1.8",
     "javascript-brunch": ">= 0",
-    "coffee-script-brunch": ">= 0"
+    "coffee-script-brunch": ">= 0",
+    "coffee-script": ">= 0"
   }
 }
