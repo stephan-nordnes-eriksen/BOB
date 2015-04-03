@@ -3,6 +3,8 @@ BOB is a simple and powerfull javascript library for building complex html struc
 
 BOB uses a pipe system to easily create very complex structures.
 
+![BOB](/BOB.png?raw=true)
+
 ##Install:
 Currently it is not available anywhere but GitHub. Download the repo, or copy the small (6.336 kb) "public/BOB.standalone.min.js". It is completely stand alone, no external libraries needed.
 
