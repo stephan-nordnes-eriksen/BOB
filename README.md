@@ -19,24 +19,24 @@ or
 ###TL;DR
 ```javascript
 
-	new BOB("div").toString()                                                                                            //=> "<div></div>"
-	new BOB("div").p()                                                                                                   //=> "<div></div>"
-	new BOB("div").class("some_class").p()                                                                               //=> "<div class=\"some_class\"></div>"
-	new BOB("div").id("some_id").p()                                                                                     //=> "<div id=\"some_class\"></div>"
-	new BOB("div.some_class").p()                                                                                        //=> "<div class=\"some_class\"></div>"
-    new BOB("div#some_id").p()                                                                                           //=> "<div id=\"some_class\"></div>"
-    new BOB("div").style("min-height: 10px;").p()                                                                        //=> "<div style=\"min-height: 10px;\"></div>"
-    new BOB("h1").content("BOB is awesome! <3").p()                                                                      //=> "<h1>BOB is awesome! <3</h1>"
-    new BOB("div", {"data-BOB-is-cool": "Yes it is", "data-very-cool": "indeed"}).p()                                    //=> "<div data-BOB-is-cool="Yes it is" data-very-cool="indeed"></div>"
-    new BOB("div").append("span").p()                                                                                    //=> "<div></div><span></span>"
-    new BOB("div").prepend("span").p()                                                                                   //=> "<span></span><div></div>"
-	new BOB("div").insert("span").p()                                                                                    //=> "<div><span></span></div>"
-    new BOB("div").append("span").id("some_id").p()                                                                      //=> "<div></div><span id=\"some_id\"></span>"
-    new BOB("div").append("span").up().id("some_id").p()                                                                 //=> "<div id=\"some_id\"></div><span></span>"
-    new BOB("ul").do([1,2,3]).insert("li").content(BOB.data).p()                                                         //=> <ul><li>1</li><li>2</li><li>3</li></ul>
-    data = [1,2,3]; new BOB("ul").do(data).insert("li", {"data-property": BOB.data}).id(BOB.data).p()                    //=> <ul><li id="1" data-property="1"></li><li id="2" data-property="2"></li><li id="3" data-property="3"></li></ul>
-    new BOB("ul").do([1,2,3]).insert("li").up().id(BOB.data).p() //INVALID                                               //=> The BOB.data will not be set and you will get the output of: "<ul><li></li><li></li><li></li></ul>".
-    new BOB("ul").do([1,2,3]).insert("li").content(function(){return BOB.data() + 2}).p()                                //=> <ul><li>3</li><li>4</li><li>5</li></ul>
+	new BOB("div").toString() //=> "<div></div>"
+	new BOB("div").p() //=> "<div></div>"
+	new BOB("div").class("some_class").p() //=> "<div class=\"some_class\"></div>"
+	new BOB("div").id("some_id").p() //=> "<div id=\"some_class\"></div>"
+	new BOB("div.some_class").p() //=> "<div class=\"some_class\"></div>"
+    new BOB("div#some_id").p() //=> "<div id=\"some_class\"></div>"
+    new BOB("div").style("min-height: 10px;").p() //=> "<div style=\"min-height: 10px;\"></div>"
+    new BOB("h1").content("BOB is awesome! <3").p() //=> "<h1>BOB is awesome! <3</h1>"
+    new BOB("div", {"data-BOB-is-cool": "Yes it is", "data-very-cool": "indeed"}).p() //=> "<div data-BOB-is-cool="Yes it is" data-very-cool="indeed"></div>"
+    new BOB("div").append("span").p() //=> "<div></div><span></span>"
+    new BOB("div").prepend("span").p() //=> "<span></span><div></div>"
+	new BOB("div").insert("span").p() //=> "<div><span></span></div>"
+    new BOB("div").append("span").id("some_id").p() //=> "<div></div><span id=\"some_id\"></span>"
+    new BOB("div").append("span").up().id("some_id").p() //=> "<div id=\"some_id\"></div><span></span>"
+    new BOB("ul").do([1,2,3]).insert("li").content(BOB.data).p() //=> <ul><li>1</li><li>2</li><li>3</li></ul>
+    data = [1,2,3]; new BOB("ul").do(data).insert("li", {"data-property": BOB.data}).id(BOB.data).p() //=> <ul><li id="1" data-property="1"></li><li id="2" data-property="2"></li><li id="3" data-property="3"></li></ul>
+    new BOB("ul").do([1,2,3]).insert("li").up().id(BOB.data).p() //INVALID //=> The BOB.data will not be set and you will get the output of: "<ul><li></li><li></li><li></li></ul>".
+    new BOB("ul").do([1,2,3]).insert("li").content(function(){return BOB.data() + 2}).p() //=> <ul><li>3</li><li>4</li><li>5</li></ul>
     data_modifier = function(){return BOB.data() + 2}; new BOB("ul").do([1,2,3]).insert("li").content(data_modifier).p() //=> <ul><li>3</li><li>4</li><li>5</li></ul>
 ```
 
