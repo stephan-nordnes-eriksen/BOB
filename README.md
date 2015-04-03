@@ -237,6 +237,8 @@ Please help contribute to this project. It is brand new, and there are probably 
 
  - Adding element selector which finds elements in the active DOM.
  - Adding ability to output string into existing elements (similar how jQuery does it)
+ - Adding nested data-aquisition data, eg: new BOB("div").do(["a", "b"]).do([1,2]).in("a").class(BOB.data[0]).co(BOB.data[1])
+ //=> <div><a class="a">1</a><a class="a">2</a><a class="b">1</a><a class="b">2</a></div>
 
 ##License
 Apache License 2.0
