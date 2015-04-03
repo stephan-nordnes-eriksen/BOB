@@ -1,11 +1,11 @@
 {
   "name": "BOB",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "authors": [
     "Stephan Nordnes Eriksen <stephanruler@gmail.com>"
   ],
   "description": "BOB is a javascript library for building complex html structures",
-  "main": "public/BOB.js",
+  "main": "public/BOB.standalone.min.js",
   "keywords": [
     "BOB",
     "building",
