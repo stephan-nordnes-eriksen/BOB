@@ -84,18 +84,18 @@ class BOB
 		@preBob.parent     = null if @preBob
 		@postBob.parent    = null if @postBob
 
-		prepend = ""
-		append = ""
-		printself = ""
-		content_b = ""
+		prepend = ''
+		append = ''
+		printself = ''
+		content_b = ''
 
 		content_b = @innerBob.toString() if @innerBob
 		prepend = @preBob.toString() if @preBob
 		append = @postBob.toString() if @postBob
 
-		printself += "<" + @type + " "
+		printself += '<' + @type + ' '
 		for key, value of @options
-			unless key == "style" && @object_style || key == "id" && @object_id || key == "class" && @object_class
+			unless key == 'style' && @object_style || key == 'id' && @object_id || key == 'class' && @object_class
 				printself += key + '="' + value + '" ' 
 
 		
@@ -105,7 +105,7 @@ class BOB
 		printself += 'style="' + @object_style + '" ' if @object_style
 
 		printself = printself.slice(0, -1)
-		printself += ">" + @object_content + content_b + "</" + @type + ">"
+		printself += '>' + @object_content + content_b + '</' + @type + '>'
 
 		return prepend + printself + append
 

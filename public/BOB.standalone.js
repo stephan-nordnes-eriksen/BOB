@@ -115,10 +115,10 @@ BOB = (function() {
     if (this.postBob) {
       this.postBob.parent = null;
     }
-    prepend = "";
-    append = "";
-    printself = "";
-    content_b = "";
+    prepend = '';
+    append = '';
+    printself = '';
+    content_b = '';
     if (this.innerBob) {
       content_b = this.innerBob.toString();
     }
@@ -128,11 +128,11 @@ BOB = (function() {
     if (this.postBob) {
       append = this.postBob.toString();
     }
-    printself += "<" + this.type + " ";
+    printself += '<' + this.type + ' ';
     ref = this.options;
     for (key in ref) {
       value = ref[key];
-      if (!(key === "style" && this.object_style || key === "id" && this.object_id || key === "class" && this.object_class)) {
+      if (!(key === 'style' && this.object_style || key === 'id' && this.object_id || key === 'class' && this.object_class)) {
         printself += key + '="' + value + '" ';
       }
     }
@@ -146,7 +146,7 @@ BOB = (function() {
       printself += 'style="' + this.object_style + '" ';
     }
     printself = printself.slice(0, -1);
-    printself += ">" + this.object_content + content_b + "</" + this.type + ">";
+    printself += '>' + this.object_content + content_b + '</' + this.type + '>';
     return prepend + printself + append;
   };
 
