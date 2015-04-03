@@ -4,15 +4,19 @@ BOB is a simple and powerfull javascript pipe system for building complex html s
 ![BOB](/BOB.png?raw=true)
 
 ##Install:
-Currently it is not available anywhere but GitHub. Download the repo, or copy the small (<8 KB) "public/BOB.standalone.min.js". It is completely stand alone, no external libraries needed.
+Download the repo, or copy the small (<8 KB) [`public/BOB.standalone.min.js`](public/BOB.standalone.min.js). It is completely stand alone, no external libraries needed.
 
-###In the future you can install by running
+Then in your html's header tag
+```html
 
+	<script src="/BOB.standalone.min.js"></script>
+```
+
+###Bower
     bower install BOB
 
-or
-
-	npm install BOB
+###NPM module will come in the future
+I found that there is already an NPM moduled called [bob](https://www.npmjs.com/package/bob), so I am open to name suggestions.
 
 ##Usage:
 BOB is a pipe system for generating html structures.
