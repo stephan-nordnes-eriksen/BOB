@@ -2,7 +2,7 @@
   "name": "BOB",
   "description": "BOB is a javascript library for building complex html structures",
   "author": "Stephan Nordnes Eriksen",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "main": "./public/BOB.min.js",
   "repository": {
     "type": "git",

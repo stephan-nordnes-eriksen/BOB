@@ -219,7 +219,7 @@ BOB = (function() {
 
   BOB.prototype.a = function(data, options) {
     var new_bob;
-    new_bob = BOB.get_or_create_bob(data, options, this);
+    new_bob = BOB.get_or_create_bob(data, options, this.parent);
     if (this.postBob) {
       return this.postBob.a(new_bob);
     } else {
@@ -233,7 +233,7 @@ BOB = (function() {
 
   BOB.prototype.p = function(data, options) {
     var new_bob;
-    new_bob = BOB.get_or_create_bob(data, options, this);
+    new_bob = BOB.get_or_create_bob(data, options, this.parent);
     if (this.preBob) {
       return this.preBob.p(new_bob);
     } else {
