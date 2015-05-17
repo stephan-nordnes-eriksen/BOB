@@ -241,4 +241,4 @@ Please help contribute to this project. It is brand new, and there are probably 
  //=> <div><a class="a">1</a><a class="a">2</a><a class="b">1</a><a class="b">2</a></div>
 
 ##License
-Apache License 2.0
+MIT
