@@ -37,10 +37,10 @@ BOB is a pipe system for generating html structures.
     new BOB("div").prepend("span").s() //=> "<span></span><div></div>"
 	new BOB("div").insert("span").s() //=> "<div><span></span></div>"
     new BOB("div").append("span").id("some_id").s() //=> "<div></div><span id=\"some_id\"></span>"
-    new BOB("div").append("span").us().id("some_id").s() //=> "<div id=\"some_id\"></div><span></span>"
+    new BOB("div").append("span").up().id("some_id").s() //=> "<div id=\"some_id\"></div><span></span>"
     new BOB("ul").do([1,2,3]).insert("li").content(BOB.data).s() //=> <ul><li>1</li><li>2</li><li>3</li></ul>
     data = [1,2,3]; new BOB("ul").do(data).insert("li", {"data-property": BOB.data}).id(BOB.data).s() //=> <ul><li id="1" data-property="1"></li><li id="2" data-property="2"></li><li id="3" data-property="3"></li></ul>
-    new BOB("ul").do([1,2,3]).insert("li").us().id(BOB.data).s() //INVALID //=> The BOB.data will not be set and you will get the output of: "<ul><li></li><li></li><li></li></ul>".
+    new BOB("ul").do([1,2,3]).insert("li").up().id(BOB.data).s() //INVALID //=> The BOB.data will not be set and you will get the output of: "<ul><li></li><li></li><li></li></ul>".
     new BOB("ul").do([1,2,3]).insert("li").content(function(){return BOB.data() + 2}).s() //=> <ul><li>3</li><li>4</li><li>5</li></ul>
     data_modifier = function(){return BOB.data() + 2}; new BOB("ul").do([1,2,3]).insert("li").content(data_modifier).s() //=> <ul><li>3</li><li>4</li><li>5</li></ul>
     
@@ -121,7 +121,7 @@ In this simlpe example we see that it is the `span` that receives the `id`, not 
 
 ```javascript
 
-	new BOB("div").append("span").us().id("some_id").s()
+	new BOB("div").append("span").up().id("some_id").s()
 	//=> "<div id=\"some_id\"></div><span></span>"	
 ```
 
@@ -159,7 +159,7 @@ However, if you use the `up` command and go out of the scope of `do`, `BOB.data`
 
 ```javascript
 
-	new BOB("ul").do([1,2,3]).insert("li").us().id(BOB.data).s() //INVALID
+	new BOB("ul").do([1,2,3]).insert("li").up().id(BOB.data).s() //INVALID
     //=> The BOB.data will not be set and you will get the output of: "<ul><li></li><li></li><li></li></ul>".
 ```
 
@@ -215,13 +215,13 @@ Better examples coming
 	new BOB("ul").do(data).insert("li.team").content(BOB.data).s()
 	//=> "<ul><li class="team">Team member1</li><li class="team">team member2</li><li class="team">team member3</li></ul>"
 
-	new BOB("div#wrapper").insert("div#searchbar").us().insert("footer").do(["team","contact","buy"]).insert("h2").content(BOB.data).s()
+	new BOB("div#wrapper").insert("div#searchbar").up().insert("footer").do(["team","contact","buy"]).insert("h2").content(BOB.data).s()
 	//=> "<div id="wrapper"><div id="searchbar"></div><footer><h2>team</h2><h2>contact</h2><h2>buy</h2></footer></div>"
 
-	new BOB("div#wrapper").insert("div#searchbar").us().insert("footer").do(["team","contact","buy"]).insert("h2",{"onclick": function(){return ("alert('" + BOB.data() + "');") }}).content(BOB.data).s()
+	new BOB("div#wrapper").insert("div#searchbar").up().insert("footer").do(["team","contact","buy"]).insert("h2",{"onclick": function(){return ("alert('" + BOB.data() + "');") }}).content(BOB.data).s()
 	//=> "<div id="wrapper"><div id="searchbar"></div><footer><h2 onclick="alert('team');">team</h2><h2 onclick="alert('contact');">contact</h2><h2 onclick="alert('buy');">buy</h2></footer></div>"
 
-	new BOB("div#wrapper").insert("div#searchbar").us().insert("footer").do(["team","contact","buy"]).insert("h2",{"onclick": function(){return ("alert('" + BOB.data() + "');") }}).content(BOB.data).us().us().prepend("a",{"href": "http://www.google.com"}).content("google").s()
+	new BOB("div#wrapper").insert("div#searchbar").up().insert("footer").do(["team","contact","buy"]).insert("h2",{"onclick": function(){return ("alert('" + BOB.data() + "');") }}).content(BOB.data).up().up().prepend("a",{"href": "http://www.google.com"}).content("google").s()
 	//=> "<a href="http://www.google.com">google</a><div id="wrapper"><div id="searchbar"></div><footer><h2 onclick="alert('team');">team</h2><h2 onclick="alert('contact');">contact</h2><h2 onclick="alert('buy');">buy</h2></footer></div>"
 ```
 
@@ -243,4 +243,4 @@ Please help contribute to this project. It is brand new, and there are probably 
  //=> <a onclick="BOB.callbacks\[N\]();">call me</a> (this can be problematic with BOB.data. Solution: pass BOB.data into the callback.) => {"onclick": function(data){alert(data+1)}} => <a onclick="BOB.callbacks\[N\]('parsed BOB.data');". The same approach can be used other places as well.
 
 ##License
-Apache License 2.0
+MIT
