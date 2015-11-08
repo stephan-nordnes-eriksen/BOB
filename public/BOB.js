@@ -1,42 +1,59 @@
-(function(/*! Brunch !*/) {
+(function() {
   'use strict';
 
-  var globals = typeof window !== 'undefined' ? window : global;
+  var globals = typeof window === 'undefined' ? global : window;
   if (typeof globals.require === 'function') return;
 
   var modules = {};
   var cache = {};
+  var has = ({}).hasOwnProperty;
 
-  var has = function(object, name) {
-    return ({}).hasOwnProperty.call(object, name);
+  var aliases = {};
+
+  var endsWith = function(str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length) !== -1;
   };
 
-  var expand = function(root, name) {
-    var results = [], parts, part;
-    if (/^\.\.?(\/|$)/.test(name)) {
-      parts = [root, name].join('/').split('/');
-    } else {
-      parts = name.split('/');
-    }
-    for (var i = 0, length = parts.length; i < length; i++) {
-      part = parts[i];
-      if (part === '..') {
-        results.pop();
-      } else if (part !== '.' && part !== '') {
-        results.push(part);
+  var unalias = function(alias, loaderPath) {
+    var start = 0;
+    if (loaderPath) {
+      if (loaderPath.indexOf('components/' === 0)) {
+        start = 'components/'.length;
+      }
+      if (loaderPath.indexOf('/', start) > 0) {
+        loaderPath = loaderPath.substring(start, loaderPath.indexOf('/', start));
       }
     }
-    return results.join('/');
+    var result = aliases[alias + '/index.js'] || aliases[loaderPath + '/deps/' + alias + '/index.js'];
+    if (result) {
+      return 'components/' + result.substring(0, result.length - '.js'.length);
+    }
+    return alias;
   };
 
+  var expand = (function() {
+    var reg = /^\.\.?(\/|$)/;
+    return function(root, name) {
+      var results = [], parts, part;
+      parts = (reg.test(name) ? root + '/' + name : name).split('/');
+      for (var i = 0, length = parts.length; i < length; i++) {
+        part = parts[i];
+        if (part === '..') {
+          results.pop();
+        } else if (part !== '.' && part !== '') {
+          results.push(part);
+        }
+      }
+      return results.join('/');
+    };
+  })();
   var dirname = function(path) {
     return path.split('/').slice(0, -1).join('/');
   };
 
   var localRequire = function(path) {
     return function(name) {
-      var dir = dirname(path);
-      var absolute = expand(dir, name);
+      var absolute = expand(dirname(path), name);
       return globals.require(absolute, path);
     };
   };
@@ -51,21 +68,26 @@
   var require = function(name, loaderPath) {
     var path = expand(name, '.');
     if (loaderPath == null) loaderPath = '/';
+    path = unalias(name, loaderPath);
 
-    if (has(cache, path)) return cache[path].exports;
-    if (has(modules, path)) return initModule(path, modules[path]);
+    if (has.call(cache, path)) return cache[path].exports;
+    if (has.call(modules, path)) return initModule(path, modules[path]);
 
     var dirIndex = expand(path, './index');
-    if (has(cache, dirIndex)) return cache[dirIndex].exports;
-    if (has(modules, dirIndex)) return initModule(dirIndex, modules[dirIndex]);
+    if (has.call(cache, dirIndex)) return cache[dirIndex].exports;
+    if (has.call(modules, dirIndex)) return initModule(dirIndex, modules[dirIndex]);
 
     throw new Error('Cannot find module "' + name + '" from '+ '"' + loaderPath + '"');
   };
 
-  var define = function(bundle, fn) {
+  require.alias = function(from, to) {
+    aliases[to] = from;
+  };
+
+  require.register = require.define = function(bundle, fn) {
     if (typeof bundle === 'object') {
       for (var key in bundle) {
-        if (has(bundle, key)) {
+        if (has.call(bundle, key)) {
           modules[key] = bundle[key];
         }
       }
@@ -74,21 +96,18 @@
     }
   };
 
-  var list = function() {
+  require.list = function() {
     var result = [];
     for (var item in modules) {
-      if (has(modules, item)) {
+      if (has.call(modules, item)) {
         result.push(item);
       }
     }
     return result;
   };
 
+  require.brunch = true;
   globals.require = require;
-  globals.require.define = define;
-  globals.require.register = define;
-  globals.require.list = list;
-  globals.require.brunch = true;
 })();
 require.register("scripts/BOB", function(exports, require, module) {
 var BOB;
@@ -269,14 +288,25 @@ BOB = (function() {
     return this.parent;
   };
 
+  BOB.prototype.prettyPrint = function() {
+    return this.pp();
+  };
+
+  BOB.prototype.pp = function() {
+    return this.s(true);
+  };
+
   BOB.prototype.toString = function() {
     return this.s();
   };
 
-  BOB.prototype.s = function() {
+  BOB.prototype.s = function(pretty) {
     var append, closable, content_b, key, prepend, printself, value, _ref;
+    if (pretty == null) {
+      pretty = false;
+    }
     if (this.parent) {
-      return this.parent.s();
+      return this.parent.s(pretty);
     }
     if (this.innerBob) {
       this.innerBob.parent = null;
@@ -292,13 +322,13 @@ BOB = (function() {
     printself = '';
     content_b = '';
     if (this.innerBob) {
-      content_b = this.innerBob.s();
+      content_b = this.innerBob.s(pretty);
     }
     if (this.preBob) {
-      prepend = this.preBob.s();
+      prepend = this.preBob.s(pretty);
     }
     if (this.postBob) {
-      append = this.postBob.s();
+      append = this.postBob.s(pretty);
     }
     if (this.type !== "") {
       printself += '<' + this.type + ' ';
@@ -323,10 +353,26 @@ BOB = (function() {
       if (closable && content_b === '') {
         printself += ' />';
       } else {
+        if (pretty) {
+          if (content_b) {
+            content_b = "\n\t" + content_b.split("\n").join("\n\t") + "\n";
+          } else {
+            content_b = "\n";
+          }
+        }
         printself += '>' + content_b + '</' + this.type + '>';
       }
     } else {
       printself = this.object_content;
+    }
+    if (pretty) {
+      if (prepend) {
+        prepend = prepend + "\n\t";
+        printself = printself.split("\n").join("\n\t");
+      }
+      if (append) {
+        append = "\n" + append;
+      }
     }
     return prepend + printself + append;
   };
@@ -453,21 +499,32 @@ BOBChildArray = (function() {
     return this;
   };
 
+  BOBChildArray.prototype.prettyPrint = function() {
+    return this.pp();
+  };
+
+  BOBChildArray.prototype.pp = function() {
+    return this.s(true);
+  };
+
   BOBChildArray.prototype.toString = function() {
     return this.s();
   };
 
-  BOBChildArray.prototype.s = function() {
+  BOBChildArray.prototype.s = function(pretty) {
     var bob, html_string, _i, _len, _ref;
+    if (pretty == null) {
+      pretty = false;
+    }
     if (this.parent) {
-      return this.parent.s();
+      return this.parent.s(pretty);
     } else {
       html_string = "";
       _ref = this.bobs;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         bob = _ref[_i];
         bob.parent = false;
-        html_string += bob.s();
+        html_string += bob.s(pretty);
       }
       return html_string;
     }

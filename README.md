@@ -239,6 +239,8 @@ Please help contribute to this project. It is brand new, and there are probably 
  - Adding ability to output string into existing elements (similar how jQuery does it)
  - Adding nested data-aquisition data, eg: new BOB("div").do(["a", "b"]).do([1,2]).in("a").class(BOB.data[0]).co(BOB.data[1])
  //=> <div><a class="a">1</a><a class="a">2</a><a class="b">1</a><a class="b">2</a></div>
+ - Automaticly detect if option value is a function. If so, create a callback for it. Eg: new BOB("a", {"onclick": function(){alert "some shit"}}).co("call me")
+ //=> <a onclick="BOB.callbacks\[N\]();">call me</a> (this can be problematic with BOB.data. Solution: pass BOB.data into the callback.) => {"onclick": function(data){alert(data+1)}} => <a onclick="BOB.callbacks\[N\]('parsed BOB.data');". The same approach can be used other places as well.
 
 ##License
 Apache License 2.0

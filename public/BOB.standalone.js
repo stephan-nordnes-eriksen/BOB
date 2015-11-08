@@ -177,14 +177,25 @@ BOB = (function() {
     return this.parent;
   };
 
+  BOB.prototype.prettyPrint = function() {
+    return this.pp();
+  };
+
+  BOB.prototype.pp = function() {
+    return this.s(true);
+  };
+
   BOB.prototype.toString = function() {
     return this.s();
   };
 
-  BOB.prototype.s = function() {
+  BOB.prototype.s = function(pretty) {
     var append, closable, content_b, key, prepend, printself, ref, value;
+    if (pretty == null) {
+      pretty = false;
+    }
     if (this.parent) {
-      return this.parent.s();
+      return this.parent.s(pretty);
     }
     if (this.innerBob) {
       this.innerBob.parent = null;
@@ -200,13 +211,13 @@ BOB = (function() {
     printself = '';
     content_b = '';
     if (this.innerBob) {
-      content_b = this.innerBob.s();
+      content_b = this.innerBob.s(pretty);
     }
     if (this.preBob) {
-      prepend = this.preBob.s();
+      prepend = this.preBob.s(pretty);
     }
     if (this.postBob) {
-      append = this.postBob.s();
+      append = this.postBob.s(pretty);
     }
     if (this.type !== "") {
       printself += '<' + this.type + ' ';
@@ -231,10 +242,26 @@ BOB = (function() {
       if (closable && content_b === '') {
         printself += ' />';
       } else {
+        if (pretty) {
+          if (content_b) {
+            content_b = "\n\t" + content_b.split("\n").join("\n\t") + "\n";
+          } else {
+            content_b = "\n";
+          }
+        }
         printself += '>' + content_b + '</' + this.type + '>';
       }
     } else {
       printself = this.object_content;
+    }
+    if (pretty) {
+      if (prepend) {
+        prepend = prepend + "\n\t";
+        printself = printself.split("\n").join("\n\t");
+      }
+      if (append) {
+        append = "\n" + append;
+      }
     }
     return prepend + printself + append;
   };
@@ -357,21 +384,32 @@ BOBChildArray = (function() {
     return this;
   };
 
+  BOBChildArray.prototype.prettyPrint = function() {
+    return this.pp();
+  };
+
+  BOBChildArray.prototype.pp = function() {
+    return this.s(true);
+  };
+
   BOBChildArray.prototype.toString = function() {
     return this.s();
   };
 
-  BOBChildArray.prototype.s = function() {
+  BOBChildArray.prototype.s = function(pretty) {
     var bob, html_string, j, len, ref;
+    if (pretty == null) {
+      pretty = false;
+    }
     if (this.parent) {
-      return this.parent.s();
+      return this.parent.s(pretty);
     } else {
       html_string = "";
       ref = this.bobs;
       for (j = 0, len = ref.length; j < len; j++) {
         bob = ref[j];
         bob.parent = false;
-        html_string += bob.s();
+        html_string += bob.s(pretty);
       }
       return html_string;
     }

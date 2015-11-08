@@ -122,13 +122,16 @@ class BOB
 		@parent
 	u: ->
 		@parent
-
+	prettyPrint: ->
+		this.pp()
+	pp: ->
+		this.s(true)
 	toString: ->
 		this.s()
-	s: ->
+	s: (pretty = false) ->
 		#this makes the toString bubble to the top if it is cast on a sub-element
 		if @parent
-			return @parent.s()
+			return @parent.s(pretty)
 		
 		#kill parents so they will print out.
 		@innerBob.parent = null if @innerBob
@@ -140,9 +143,9 @@ class BOB
 		printself = ''
 		content_b = ''
 
-		content_b = @innerBob.s() if @innerBob
-		prepend = @preBob.s() if @preBob
-		append = @postBob.s() if @postBob
+		content_b = @innerBob.s(pretty) if @innerBob
+		prepend = @preBob.s(pretty) if @preBob
+		append = @postBob.s(pretty) if @postBob
 		#TODO: Make special case for img (or those without content?) and no-type tag, which is pure text content.
 		
 		if @type != ""
@@ -180,11 +183,23 @@ class BOB
 			if closable && content_b == ''
 				printself += ' />'
 			else	
+				if pretty
+					if content_b
+						content_b = "\n\t" +  content_b.split("\n").join("\n\t") + "\n"	
+					else
+						content_b = "\n"
 				printself += '>' + content_b + '</' + @type + '>'
 		else
 			#pure text element (no type)
 			printself = @object_content #it should not have any innerBob as it is never exposed when we are setting object_content
 
+		if pretty
+			if prepend
+				prepend =  prepend + "\n\t"
+				printself = printself.split("\n").join("\n\t")
+			if append
+				append = "\n" + append
+		
 		return prepend + printself + append
 
 	# new BOB("div",{test: "lol"}).do(["data"]).add("p",funtion(d){this.insert("div",{a: d.height})})

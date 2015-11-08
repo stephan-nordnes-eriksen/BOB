@@ -71,16 +71,21 @@ class BOBChildArray
 
 		return this
 
+	prettyPrint: ->
+		this.pp()
+	pp: ->
+		this.s(true)
+		
 	toString: ->
 		this.s()	
-	s: ->
+	s: (pretty = false) ->
 		if @parent
-			return @parent.s()
+			return @parent.s(pretty)
 		else
 			html_string = ""
 			for bob in @bobs
 				bob.parent = false
-				html_string += bob.s()
+				html_string += bob.s(pretty)
 			return html_string
 
 	#TODO: do(data).do(data2) does not behave correctly
