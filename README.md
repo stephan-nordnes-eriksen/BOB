@@ -1,5 +1,5 @@
 #BOB
-BOB is a simple and powerfull javascript pipe system for building complex html structures. 
+BOB is a simple and powerfull javascript pipe system for building complex XML and HTML structures. 
 
 ![BOB](/BOB.png?raw=true)
 
@@ -19,7 +19,7 @@ Then in your html's header tag
 I found that there is already an NPM moduled called [bob](https://www.npmjs.com/package/bob), so I am open to name suggestions.
 
 ##Usage:
-BOB is a pipe system for generating html structures.
+BOB is a pipe system for generating XML and HTML structures.
 
 ###TL;DR
 ```javascript
@@ -27,9 +27,9 @@ BOB is a pipe system for generating html structures.
 	new BOB("div").toString() //=> "<div></div>"
 	new BOB("div").s() //=> "<div></div>"
 	new BOB("div").class("some_class").s() //=> "<div class=\"some_class\"></div>"
-	new BOB("div").id("some_id").s() //=> "<div id=\"some_class\"></div>"
+	new BOB("div").id("some_id").s() //=> "<div id=\"some_id\"></div>"
 	new BOB("div.some_class").s() //=> "<div class=\"some_class\"></div>"
-    new BOB("div#some_id").s() //=> "<div id=\"some_class\"></div>"
+    new BOB("div#some_id").s() //=> "<div id=\"some_id\"></div>"
     new BOB("div").style("min-height: 10px;").s() //=> "<div style=\"min-height: 10px;\"></div>"
     new BOB("h1").content("BOB is awesome! <3").s() //=> "<h1>BOB is awesome! <3</h1>"
     new BOB("div", {"data-BOB-is-cool": "Yes it is", "data-very-cool": "indeed"}).s() //=> "<div data-BOB-is-cool="Yes it is" data-very-cool="indeed"></div>"
@@ -45,7 +45,7 @@ BOB is a pipe system for generating html structures.
     data_modifier = function(){return BOB.data() + 2}; new BOB("ul").do([1,2,3]).insert("li").content(data_modifier).s() //=> <ul><li>3</li><li>4</li><li>5</li></ul>
     
     //Shorthand syntax:
-    new BOB("div").i("img", {"src":"some.png"}).u().d([1,2,3]).i("p.number").co(BOB.d).s() //=> "<div><img src="some.png"></img><p class="number">1</p><p class="number">2</p><p class="number">3</p></div>"
+    new BOB("div").i("img", {"src":"some.png"}).u().d([1,2,3]).i("p.number").co(BOB.d).s() //=> "<div><img src="some.png" /><p class="number">1</p><p class="number">2</p><p class="number">3</p></div>"
 ```
 [Go to shorthand syntax section](#shorthand)
 
@@ -131,7 +131,7 @@ We effectively traversed backwards, or up, the stack. This is the basics of mana
 
 
 ###Branching out
-Say you want HTML that looks like this:
+Say you want XML/HTML that looks like this:
 
 ```javascript
 
