@@ -211,18 +211,19 @@ Writing out these pipes can be tiresom if you are building big and complex struc
 
 Long Version | Short Version
 ------------ | -------------
-.insert   | .i
-.append   | .a
-.prepend  | .p
-.content  | .co
-.style    | .st
-.class    | .cl
-.id       | .id
-.style    | .st
-.toString | .s
-.do       | .d
-.up       | .u
-BOB.data  | BOB.d
+.insert      | .i
+.append      | .a
+.prepend     | .p
+.content     | .co
+.style       | .st
+.class       | .cl
+.id          | .id
+.style       | .st
+.toString    | .s
+.do          | .d
+.up          | .u
+BOB.data     | BOB.d
+.prettyPrint | .pp
 
 Now you can get tight and cozy syntax like this:
 
