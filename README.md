@@ -178,6 +178,32 @@ It is adviced to do the data manipulation prior to the `do` pipe. However it is 
     //=> <ul><li>3</li><li>4</li><li>5</li></ul>
 ```
 
+###Pretty Printing
+It is possible get a pretty printed version of the XML/HTML, with the ´.prettyPrint()´ method, or the ´.pp´ shorthand.
+
+```Javascript
+
+    new BOB("article").a("lol").i("photo").co("test").a("test2").i("price").co("200euro").pp()
+    #=> </article>\n<lol>\n\t<photo>\n\t\ttest\n\t</photo>\n\t<test2>\n\t\t<price>\n\t\t\t200euro\n\t\t</price>\n\t</test2>\n</lol>
+
+```
+
+This string will print as the following:
+
+```
+
+</article>
+<lol>
+    <photo>
+        test
+    </photo>
+    <test2>
+        <price>
+            200euro
+        </price>
+    </test2>
+</lol>
+```
 
 <a name="shorthand"></a>
 ###Short hand syntax
