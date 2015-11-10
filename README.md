@@ -69,7 +69,7 @@ You can also use the shorthand method "s". For a full list see [the shorthand se
 	new BOB("div").class("some_class").s()
     //=> "<div class=\"some_class\"></div>"
     new BOB("div").id("some_id").s()
-    //=> "<div id=\"some_class\"></div>"
+    //=> "<div id=\"some_id\"></div>"
 ```
 
 This can also be done with the shorthand selector style:
@@ -78,7 +78,7 @@ This can also be done with the shorthand selector style:
     new BOB("div.some_class").s()
     //=> "<div class=\"some_class\"></div>"
     new BOB("div#some_id").s()
-    //=> "<div id=\"some_class\"></div>"
+    //=> "<div id=\"some_id\"></div>"
 ```
 
 ###Adding styles, content, and custom attributes
