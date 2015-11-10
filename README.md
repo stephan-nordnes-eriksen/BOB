@@ -191,7 +191,6 @@ It is possible get a pretty printed version of the XML/HTML, with the `.prettyPr
 This string will print as the following:
 
 ```
-
 </article>
 <lol>
     <photo>
