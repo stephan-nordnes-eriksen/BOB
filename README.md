@@ -1,9 +1,9 @@
-#BOB
+# BOB
 BOB is a simple and powerfull javascript pipe system for building complex XML and HTML structures. 
 
 ![BOB](/BOB.png?raw=true)
 
-##Install:
+## Install:
 Download the repo, or copy the small (<8 KB) [`public/BOB.standalone.min.js`](public/BOB.standalone.min.js). It is completely stand alone, no external libraries needed.
 
 Then in your html's header tag
@@ -12,16 +12,16 @@ Then in your html's header tag
 	<script src="/BOB.standalone.min.js"></script>
 ```
 
-###Bower
+### Bower
     bower install BOB
 
-###NPM module will come in the future
+### NPM module will come in the future
 I found that there is already an NPM moduled called [bob](https://www.npmjs.com/package/bob), so I am open to name suggestions.
 
-##Usage:
+## Usage:
 BOB is a pipe system for generating XML and HTML structures.
 
-###TL;DR
+### TL;DR
 ```javascript
 
 	new BOB("div").toString() //=> "<div></div>"
@@ -49,7 +49,7 @@ BOB is a pipe system for generating XML and HTML structures.
 ```
 [Go to shorthand syntax section](#shorthand)
 
-###Building a simple tag:
+### Building a simple tag:
 ```javascript
 
     new BOB("div").toString() 
@@ -63,7 +63,7 @@ You can also use the shorthand method "s". For a full list see [the shorthand se
     //=> "<div></div>"
 ```
 
-###Adding IDs and classes
+### Adding IDs and classes
 ```javascript
 
 	new BOB("div").class("some_class").s()
@@ -81,7 +81,7 @@ This can also be done with the shorthand selector style:
     //=> "<div id=\"some_id\"></div>"
 ```
 
-###Adding styles, content, and custom attributes
+### Adding styles, content, and custom attributes
 ```javascript
 
 	new BOB("div").style("min-height: 10px;").s()
@@ -92,7 +92,7 @@ This can also be done with the shorthand selector style:
     //=> "<div data-BOB-is-cool="Yes it is" data-very-cool="indeed"></div>"
 ```
 
-###Building and appending/prepending tags:
+### Building and appending/prepending tags:
 ```javascript
 
     new BOB("div").append("span").s()
@@ -101,14 +101,14 @@ This can also be done with the shorthand selector style:
     //=> "<span></span><div></div>"
 ```
 
-###Building with inserting tags:
+### Building with inserting tags:
 ```javascript
 
     new BOB("div").insert("span").s()
     //=> "<div><span></span></div>"
 ```
 
-###Handling basic nesting
+### Handling basic nesting
 When appending, prepending, or inserting you will effectively branch downwards, meaning that the latest element is your current active. Example:
 
 ```javascript
@@ -130,7 +130,7 @@ We effectively traversed backwards, or up, the stack. This is the basics of mana
 **It is very improtant to keep track of what is "in focus" when you are applying the next pipe.**
 
 
-###Branching out
+### Branching out
 Say you want XML/HTML that looks like this:
 
 ```javascript
@@ -163,7 +163,7 @@ However, if you use the `up` command and go out of the scope of `do`, `BOB.data`
     //=> The BOB.data will not be set and you will get the output of: "<ul><li></li><li></li><li></li></ul>".
 ```
 
-###Processing data and BOB.data
+### Processing data and BOB.data
 BOB.data is a function, so **you cannot manipulate `BOB.data` directly.**
 
 It is adviced to do the data manipulation prior to the `do` pipe. However it is possible to manipulate BOB.data inline like this:
@@ -178,7 +178,7 @@ It is adviced to do the data manipulation prior to the `do` pipe. However it is 
     //=> <ul><li>3</li><li>4</li><li>5</li></ul>
 ```
 
-###Pretty Printing
+### Pretty Printing
 It is possible get a pretty printed version of the XML/HTML, with the `.prettyPrint()` method, or the `.pp` shorthand.
 
 ```javascript
@@ -205,7 +205,7 @@ This string will print as the following:
 ```
 
 <a name="shorthand"></a>
-###Short hand syntax
+### Short hand syntax
 Writing out these pipes can be tiresom if you are building big and complex structures, so you can utilize these shorthand methods.
 
 Long Version | Short Version
@@ -232,7 +232,7 @@ Now you can get tight and cozy syntax like this:
 	//=> "<div><img src="some.png"></img><p class="number">1</p><p class="number">2</p><p class="number">3</p></div>"
 ```
 
-###Some complex examples
+### Some complex examples
 Better examples coming
 
 ```javascript
@@ -251,15 +251,15 @@ Better examples coming
 	//=> "<a href="http://www.google.com">google</a><div id="wrapper"><div id="searchbar"></div><footer><h2 onclick="alert('team');">team</h2><h2 onclick="alert('contact');">contact</h2><h2 onclick="alert('buy');">buy</h2></footer></div>"
 ```
 
-###Comparing to D3 and jQuery:
+### Comparing to D3 and jQuery:
 TODO: get simple and complex examples comparing BOB, d3 and jQuery. And also pure JS maybe.
 
-##Important notes:
+## Important notes:
 Currently BOB has no unit tests, so it cannot be considered production ready. 
 
 Please help contribute to this project. It is brand new, and there are probably loads of features that can be added. 
 
-###Planned features
+### Planned features
 
  - Adding element selector which finds elements in the active DOM.
  - Adding ability to output string into existing elements (similar how jQuery does it)
@@ -268,5 +268,5 @@ Please help contribute to this project. It is brand new, and there are probably 
  - Automaticly detect if option value is a function. If so, create a callback for it. Eg: new BOB("a", {"onclick": function(){alert "some shit"}}).co("call me")
  //=> <a onclick="BOB.callbacks\[N\]();">call me</a> (this can be problematic with BOB.data. Solution: pass BOB.data into the callback.) => {"onclick": function(data){alert(data+1)}} => <a onclick="BOB.callbacks\[N\]('parsed BOB.data');". The same approach can be used other places as well.
 
-##License
+## License
 MIT
