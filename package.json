@@ -2,7 +2,7 @@
   "name": "bob-xml",
   "description": "BOB is a javascript library for building complex html structures",
   "author": "Stephan Nordnes Eriksen <stephanruler@gmail.com>",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "./public/BOB.standalone.min.js",
   "repository": "https://github.com/stephan-nordnes-eriksen/BOB",
   "scripts": {
