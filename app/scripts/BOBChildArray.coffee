@@ -116,3 +116,4 @@ class BOBChildArray
 			return @parent
 		else
 			return this
+

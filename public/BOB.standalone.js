@@ -271,7 +271,7 @@ BOB = (function() {
 
 // new BOB("div",{test: "lol"}).do(["data"]).add("p",funtion(d){this.insert("div",{a: d.height})})
 
-  // new BOB("ul",{class: "lol"})
+// new BOB("ul",{class: "lol"})
 // 	.do(dataset)
 // 	.insert("li", {dataProp: BOB.data}) #?
 // 		.content(BOB.data)              #?
@@ -286,6 +286,8 @@ BOB = (function() {
 // 	.append("ul",{class: "shiet"})
 // 	.prepend("ul",{class: "shiet"})
 // 	.toString();
+module.exports = BOB;
+
 BOBChildArray = class BOBChildArray {
   constructor(dataset, parent) {
     this.dataset = dataset;

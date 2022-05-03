@@ -220,3 +220,4 @@ class BOB
 	# 	.prepend("ul",{class: "shiet"})
 	# 	.toString();
 
+module.exports = BOB
