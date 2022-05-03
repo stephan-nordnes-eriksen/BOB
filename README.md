@@ -3,8 +3,8 @@ BOB is a simple and powerful javascript pipe system for building complex XML and
 
 ![BOB](/BOB.png?raw=true)
 
-## Install:
-Download the repo, or copy the small (<8 KB) [`public/BOB.standalone.min.js`](public/BOB.standalone.min.js). It is completely stand alone, no external libraries needed.
+# Install:
+Download the repo, or copy the small (<8 KB) [`public/BOB.standalone.min.js`](public/BOB.standalone.min.js). It is completely standalone: no external libraries are needed.
 
 Then in your html's header tag
 ```html
@@ -12,18 +12,19 @@ Then in your html's header tag
 	<script src="/BOB.standalone.min.js"></script>
 ```
 
-### Bower (Deprecated)
-    `bower install BOB`
+## NPM
+`npm install bob-xml`
 
-### NPM
-    `npm install bob-xml`
+## Bower
+Deprecated, but should still work
+
+`bower install BOB`
 
 
-## Usage:
+# Usage:
 BOB is a pipe system for generating XML and HTML structures.
 
-### TL;DR
-
+## TL;DR
 ```js
 
 new BOB("div").toString() //=> "<div></div>"
@@ -51,8 +52,7 @@ new BOB("div").i("img", {"src":"some.png"}).u().d([1,2,3]).i("p.number").co(BOB.
 ```
 [Go to shorthand syntax section](#shorthand)
 
-### Building a simple tag:
-
+## Building a simple tag:
 ```js
 
 new BOB("div").toString() 
@@ -66,8 +66,7 @@ new BOB("div").s()
 //=> "<div></div>"
 ```
 
-### Adding IDs and classes
-
+## Adding IDs and classes
 ```js
 
 new BOB("div").class("some_class").s()
@@ -85,8 +84,7 @@ new BOB("div#some_id").s()
 //=> "<div id=\"some_id\"></div>"
 ```
 
-### Adding styles, content, and custom attributes
-
+## Adding styles, content, and custom attributes
 ```js
 new BOB("div").style("min-height: 10px;").s()
 //=> "<div style=\"min-height: 10px;\"></div>"
@@ -96,8 +94,7 @@ new BOB("div", {"data-BOB-is-cool": "Yes it is", "data-very-cool": "indeed"}).s(
 //=> "<div data-BOB-is-cool="Yes it is" data-very-cool="indeed"></div>"
 ```
 
-### Building and appending/prepending tags:
-
+## Building and appending/prepending tags:
 ```js
 new BOB("div").append("span").s()
 //=> "<div></div><span></span>"
@@ -105,14 +102,13 @@ new BOB("div").prepend("span").s()
 //=> "<span></span><div></div>"
 ```
 
-### Building with inserting tags:
-
+## Building with inserting tags:
 ```js
 new BOB("div").insert("span").s()
 //=> "<div><span></span></div>"
 ```
 
-### Handling basic nesting
+## Handling basic nesting
 When appending, prepending, or inserting you will effectively branch downwards, meaning that the latest element is your current active. Example:
 
 
@@ -121,7 +117,7 @@ new BOB("div").append("span").id("some_id").s()
 //=> "<div></div><span id=\"some_id\"></span>"
 ```
 
-In this simlpe example we see that it is the `span` that receives the `id`, not the div. If we wanted to affect the `div` in stead (in this trivial, nonsensical, example), we would do:
+In this simple example we see that it is the `span` that receives the `id`, not the div. If we wanted to affect the `div` instead (in this trivial, nonsensical, example), we would do:
 
 
 ```js
@@ -129,12 +125,12 @@ new BOB("div").append("span").up().id("some_id").s()
 //=> "<div id=\"some_id\"></div><span></span>"	
 ```
 
-We effectively traversed backwards, or up, the stack. This is the basics of managing nesting and branching. Let's have a look at how to build usefull branches.
+We effectively traversed backwards - or up - the stack. These are the basics of managing nesting and branching. Let's have a look at how to build useful branches.
 
-**It is very improtant to keep track of what is "in focus" when you are applying the next pipe.**
+**It is very important to keep track of what is "in focus" when you are applying the next pipe.**
 
 
-### Branching out
+## Branching out
 Say you want XML/HTML that looks like this:
 
 
@@ -150,7 +146,7 @@ new BOB("ul").do([1,2,3]).insert("li").content(BOB.data).s()
 //=> <ul><li>1</li><li>2</li><li>3</li></ul>
 ```
 
-Here you see `BOB.data` which is a special variable which represend the individal data points when the chain in being executed. It can be used for anything within the scope of the `do`, eg.
+Here you see `BOB.data` which is a special variable which represents the individual data points when the chain in being executed. It can be used for anything within the scope of the `do`, eg.
 
 
 ```js
@@ -167,10 +163,10 @@ new BOB("ul").do([1,2,3]).insert("li").up().id(BOB.data).s() //INVALID
 //=> The BOB.data will not be set and you will get the output of: "<ul><li></li><li></li><li></li></ul>".
 ```
 
-### Processing data and BOB.data
+## Processing data and BOB.data
 BOB.data is a function, so **you cannot manipulate `BOB.data` directly.**
 
-It is adviced to do the data manipulation prior to the `do` pipe. However it is possible to manipulate BOB.data inline like this:
+It is advised to do the data manipulation prior to the `do` pipe. However, it is possible to manipulate BOB.data inline like this:
 
 
 ```js
@@ -182,8 +178,8 @@ new BOB("ul").do([1,2,3]).insert("li").content(data_modifier).s()
 //=> <ul><li>3</li><li>4</li><li>5</li></ul>
 ```
 
-### Pretty Printing
-It is possible get a pretty printed version of the XML/HTML, with the `.prettyPrint()` method, or the `.pp` shorthand.
+## Pretty Printing
+It is possible to get a pretty printed version of the XML/HTML, with the `.prettyPrint()` method, or the `.pp` shorthand.
 
 
 ```js
@@ -208,7 +204,8 @@ This string will print as the following:
 ```
 
 <a name="shorthand"></a>
-### Short hand syntax
+
+## Short hand syntax
 Writing out these pipes can be tiresome if you are building big and complex structures, so you can utilize these shorthand methods.
 
 Long Version | Short Version
@@ -235,7 +232,7 @@ new BOB("div").i("img", {"src":"some.png"}).u().d([1,2,3]).i("p.number").co(BOB.
 //=> "<div><img src="some.png"></img><p class="number">1</p><p class="number">2</p><p class="number">3</p></div>"
 ```
 
-### Some complex examples
+## Some complex examples
 Better examples coming
 
 
@@ -254,22 +251,22 @@ new BOB("div#wrapper").insert("div#searchbar").up().insert("footer").do(["team",
 //=> "<a href="http://www.google.com">google</a><div id="wrapper"><div id="searchbar"></div><footer><h2 onclick="alert('team');">team</h2><h2 onclick="alert('contact');">contact</h2><h2 onclick="alert('buy');">buy</h2></footer></div>"
 ```
 
-### Comparing to D3 and jQuery:
-TODO: get simple and complex examples comparing BOB, d3 and jQuery. And also pure JS maybe.
+## Comparing to D3 and jQuery:
+TODO: get simple and complex examples comparing BOB, d3 and jQuery. And, also, pure JS, maybe.
 
-## Important notes:
-Currently BOB has no unit tests, so it cannot be considered production ready. 
+# Important notes:
+Currently, BOB has no unit tests, so it cannot be considered production ready. 
 
 Please help contribute to this project. It is brand new, and there are probably loads of features that can be added. 
 
-### Planned features
+## Planned features
+Please note: This library is not in active development
 
- - Adding element selector which finds elements in the active DOM.
- - Adding ability to output string into existing elements (similar how jQuery does it)
- - Adding nested data-aquisition data, eg: new BOB("div").do(["a", "b"]).do([1,2]).in("a").class(BOB.data[0]).co(BOB.data[1])
- //=> <div><a class="a">1</a><a class="a">2</a><a class="b">1</a><a class="b">2</a></div>
- - Automaticly detect if option value is a function. If so, create a callback for it. Eg: new BOB("a", {"onclick": function(){alert "some shit"}}).co("call me")
+- Adding element selector which finds elements in the active DOM.
+- Adding ability to output string into existing elements (similar how jQuery does it)
+- Adding nested data-aquisition data, eg: `new BOB("div").do(["a", "b"]).do([1,2]).in("a").class(BOB.data[0]).co(BOB.data[1]) //=> <div><a class="a">1</a><a class="a">2</a><a class="b">1</a><a class="b">2</a></div>`
+- Automatically detect if option value is a function. If so, create a callback for it. Eg: new BOB("a", {"onclick": function(){alert "some shit"}}).co("call me")
  //=> <a onclick="BOB.callbacks\[N\]();">call me</a> (this can be problematic with BOB.data. Solution: pass BOB.data into the callback.) => {"onclick": function(data){alert(data+1)}} => <a onclick="BOB.callbacks\[N\]('parsed BOB.data');". The same approach can be used other places as well.
 
-## License
+# License
 MIT
