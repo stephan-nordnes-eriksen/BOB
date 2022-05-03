@@ -1,13 +1,10 @@
 {
-  "name": "BOB",
+  "name": "bob-xml",
   "description": "BOB is a javascript library for building complex html structures",
-  "author": "Stephan Nordnes Eriksen",
-  "version": "0.0.9",
+  "author": "Stephan Nordnes Eriksen <stephanruler@gmail.com>",
+  "version": "0.1.0",
   "main": "./public/BOB.min.js",
-  "repository": {
-    "type": "git",
-    "url": ""
-  },
+  "repository": "https://github.com/stephan-nordnes-eriksen/BOB",
   "scripts": {
     "start": "brunch watch --server",
     "test": "brunch test",
@@ -18,11 +15,12 @@
     "c": "npm run compile"
   },
   "devDependencies": {
-    "uglify-js": ">= 0",
-    "javascript-brunch": ">= 1.0 < 1.8",
-    "uglify-js-brunch": ">= 1.0 < 1.8",
-    "javascript-brunch": ">= 0",
+    "brunch": "^4.0.0",
+    "coffee-script": ">= 0",
     "coffee-script-brunch": ">= 0",
-    "coffee-script": ">= 0"
+    "coffeescript": "^2.7.0",
+    "javascript-brunch": ">= 0",
+    "uglify-js": ">= 0",
+    "uglify-js-brunch": "^2.10.0"
   }
 }

@@ -1,5 +1,5 @@
 # BOB
-BOB is a simple and powerfull javascript pipe system for building complex XML and HTML structures. 
+BOB is a simple and powerful javascript pipe system for building complex XML and HTML structures. 
 
 ![BOB](/BOB.png?raw=true)
 
@@ -12,17 +12,19 @@ Then in your html's header tag
 	<script src="/BOB.standalone.min.js"></script>
 ```
 
-### Bower
-    bower install BOB
+### Bower (Deprecated)
+    `bower install BOB`
 
-### NPM module will come in the future
-I found that there is already an NPM moduled called [bob](https://www.npmjs.com/package/bob), so I am open to name suggestions.
+### NPM
+    `npm install bob-xml`
+
 
 ## Usage:
 BOB is a pipe system for generating XML and HTML structures.
 
 ### TL;DR
-```javascript
+
+```js
 
 new BOB("div").toString() //=> "<div></div>"
 new BOB("div").s() //=> "<div></div>"
@@ -50,20 +52,23 @@ new BOB("div").i("img", {"src":"some.png"}).u().d([1,2,3]).i("p.number").co(BOB.
 [Go to shorthand syntax section](#shorthand)
 
 ### Building a simple tag:
-```javascript
+
+```js
 
 new BOB("div").toString() 
 //=> "<div></div>"
 ```
 You can also use the shorthand method "s". For a full list see [the shorthand section](#shorthand)
 
-```javascript
+
+```js
 new BOB("div").s()
 //=> "<div></div>"
 ```
 
 ### Adding IDs and classes
-```javascript
+
+```js
 
 new BOB("div").class("some_class").s()
 //=> "<div class=\"some_class\"></div>"
@@ -72,7 +77,8 @@ new BOB("div").id("some_id").s()
 ```
 
 This can also be done with the shorthand selector style:
-```javascript
+
+```js
 new BOB("div.some_class").s()
 //=> "<div class=\"some_class\"></div>"
 new BOB("div#some_id").s()
@@ -80,7 +86,8 @@ new BOB("div#some_id").s()
 ```
 
 ### Adding styles, content, and custom attributes
-```javascript
+
+```js
 new BOB("div").style("min-height: 10px;").s()
 //=> "<div style=\"min-height: 10px;\"></div>"
 new BOB("h1").content("BOB is awesome! <3").s()
@@ -90,7 +97,8 @@ new BOB("div", {"data-BOB-is-cool": "Yes it is", "data-very-cool": "indeed"}).s(
 ```
 
 ### Building and appending/prepending tags:
-```javascript
+
+```js
 new BOB("div").append("span").s()
 //=> "<div></div><span></span>"
 new BOB("div").prepend("span").s()
@@ -98,7 +106,8 @@ new BOB("div").prepend("span").s()
 ```
 
 ### Building with inserting tags:
-```javascript
+
+```js
 new BOB("div").insert("span").s()
 //=> "<div><span></span></div>"
 ```
@@ -106,14 +115,16 @@ new BOB("div").insert("span").s()
 ### Handling basic nesting
 When appending, prepending, or inserting you will effectively branch downwards, meaning that the latest element is your current active. Example:
 
-```javascript
+
+```js
 new BOB("div").append("span").id("some_id").s()
 //=> "<div></div><span id=\"some_id\"></span>"
 ```
 
 In this simlpe example we see that it is the `span` that receives the `id`, not the div. If we wanted to affect the `div` in stead (in this trivial, nonsensical, example), we would do:
 
-```javascript
+
+```js
 new BOB("div").append("span").up().id("some_id").s()
 //=> "<div id=\"some_id\"></div><span></span>"	
 ```
@@ -126,20 +137,23 @@ We effectively traversed backwards, or up, the stack. This is the basics of mana
 ### Branching out
 Say you want XML/HTML that looks like this:
 
-```javascript
+
+```js
 <ul><li>1</li><li>2</li><li>3</li></ul>
 ```
 
 To do such branching, without having to re-write all parts manually, you can use the `do` method:
 
-```javascript
+
+```js
 new BOB("ul").do([1,2,3]).insert("li").content(BOB.data).s()
 //=> <ul><li>1</li><li>2</li><li>3</li></ul>
 ```
 
 Here you see `BOB.data` which is a special variable which represend the individal data points when the chain in being executed. It can be used for anything within the scope of the `do`, eg.
 
-```javascript
+
+```js
 let data = [1,2,3]
 new BOB("ul").do(data).insert("li", {"data-property": BOB.data}).id(BOB.data).s()
 //=> <ul><li id="1" data-property="1"></li><li id="2" data-property="2"></li><li id="3" data-property="3"></li></ul>
@@ -147,7 +161,8 @@ new BOB("ul").do(data).insert("li", {"data-property": BOB.data}).id(BOB.data).s(
 
 However, if you use the `up` command and go out of the scope of `do`, `BOB.data` might not work. The behaviour is undefined so errors and/or strange behaviour might occur. Eg:
 
-```javascript
+
+```js
 new BOB("ul").do([1,2,3]).insert("li").up().id(BOB.data).s() //INVALID
 //=> The BOB.data will not be set and you will get the output of: "<ul><li></li><li></li><li></li></ul>".
 ```
@@ -157,7 +172,8 @@ BOB.data is a function, so **you cannot manipulate `BOB.data` directly.**
 
 It is adviced to do the data manipulation prior to the `do` pipe. However it is possible to manipulate BOB.data inline like this:
 
-```javascript
+
+```js
 new BOB("ul").do([1,2,3]).insert("li").content(function(){return BOB.data() + 2}).s()
 //=> <ul><li>3</li><li>4</li><li>5</li></ul>
 //Or you can predefine a set of manipulations
@@ -169,7 +185,8 @@ new BOB("ul").do([1,2,3]).insert("li").content(data_modifier).s()
 ### Pretty Printing
 It is possible get a pretty printed version of the XML/HTML, with the `.prettyPrint()` method, or the `.pp` shorthand.
 
-```javascript
+
+```js
 new BOB("article").a("lol").i("photo").co("test").a("test2").i("price").co("200euro").pp()
 #=> "</article>\n<lol>\n\t<photo>\n\t\ttest\n\t</photo>\n\t<test2>\n\t\t<price>\n\t\t\t200euro\n\t\t</price>\n\t</test2>\n</lol>"
 ```
@@ -192,7 +209,7 @@ This string will print as the following:
 
 <a name="shorthand"></a>
 ### Short hand syntax
-Writing out these pipes can be tiresom if you are building big and complex structures, so you can utilize these shorthand methods.
+Writing out these pipes can be tiresome if you are building big and complex structures, so you can utilize these shorthand methods.
 
 Long Version | Short Version
 ------------ | -------------
@@ -212,7 +229,8 @@ BOB.data     | BOB.d
 
 Now you can get tight and cozy syntax like this:
 
-```javascript
+
+```js
 new BOB("div").i("img", {"src":"some.png"}).u().d([1,2,3]).i("p.number").co(BOB.d).s()
 //=> "<div><img src="some.png"></img><p class="number">1</p><p class="number">2</p><p class="number">3</p></div>"
 ```
@@ -220,7 +238,8 @@ new BOB("div").i("img", {"src":"some.png"}).u().d([1,2,3]).i("p.number").co(BOB.
 ### Some complex examples
 Better examples coming
 
-```javascript
+
+```js
 let data = ["Team member1", "team member2", "team member3"]
 new BOB("ul").do(data).insert("li.team").content(BOB.data).s()
 //=> "<ul><li class="team">Team member1</li><li class="team">team member2</li><li class="team">team member3</li></ul>"
