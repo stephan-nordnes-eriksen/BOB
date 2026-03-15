@@ -2,25 +2,20 @@
   "name": "bob-xml",
   "description": "BOB is a javascript library for building complex html structures",
   "author": "Stephan Nordnes Eriksen <stephanruler@gmail.com>",
-  "version": "0.1.1",
-  "main": "./public/BOB.standalone.min.js",
+  "version": "0.2.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "repository": "https://github.com/stephan-nordnes-eriksen/BOB",
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
-    "start": "brunch watch --server",
-    "test": "brunch test",
-    "build": "brunch build",
-    "standalone": "cat app/scripts/BOB.coffee app/scripts/BOBChildArray.coffee | coffee --compile --stdio -b > public/BOB.standalone.js; uglifyjs public/BOB.standalone.js > public/BOB.standalone.min.js",
-    "uglifyjs": "uglifyjs public/BOB.js > public/BOB.min.js",
-    "compile": "brunch build; npm run standalone; npm run uglifyjs",
-    "c": "npm run compile"
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
-    "brunch": "^4.0.0",
-    "coffee-script": ">= 0",
-    "coffee-script-brunch": ">= 0",
-    "coffeescript": "^2.7.0",
-    "javascript-brunch": ">= 0",
-    "uglify-js": ">= 0",
-    "uglify-js-brunch": "^2.10.0"
+    "typescript": "^5.9.3"
   }
 }
