@@ -2,3 +2,5 @@ app
 BOB.png
 bower.json
 config.js
+public
+*.coffee
